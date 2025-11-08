@@ -1,0 +1,73 @@
+/* App custom styles (complements Bootstrap) */
+:root{
+--brand:#0d6efd; /* bootstrap primary */
+--muted:#6c757d;
+}
+body{font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';}
+
+
+/* Class cards */
+.class-card{border-radius:14px; transition:transform .18s ease, box-shadow .18s ease; overflow:hidden}
+.class-card:hover{transform:translateY(-6px); box-shadow:0 12px 30px rgba(13,110,253,0.12)}
+.grade-circle{
+width:78px;height:78px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:white;background:linear-gradient(135deg,#0d6efd,#6610f2);
+box-shadow:0 6px 18px rgba(13,110,253,0.12)
+}
+
+
+/* Table and badges */
+.rating-badge{display:inline-block;padding:.4rem .65rem;border-radius:8px;color:#fff;font-weight:700}
+.r1{background:#16a34a}
+.r2{background:#0ea5e9}
+.r3{background:#06b6d4}
+.r4{background:#f59e0b}
+.r5{background:#f97316}
+.r6{background:#ef4444}
+.r7{background:#c026d3}
+.r8{background:#7c3aed}
+.r9{background:#581c87}
+
+
+/* Small responsive tweaks */
+@media (max-width:576px){
+.grade-circle{width:64px;height:64px;font-size:22px}
+}
+
+
+/* Footer */
+footer{background:transparent}
+
+
+/* Utility spacing tweaks for nicer layout */
+.container{max-width:1100px}
+
+#studentsTable th {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#studentsTable th:hover {
+  background-color: #e3f2fd;
+}
+
+#studentsTable th.asc::after {
+  content: " ▲";
+  font-size: 0.8rem;
+}
+
+#studentsTable th:not(.asc)::after {
+  content: " ▼";
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+#tableSearch {
+  box-shadow: 0 0 0 2px rgba(13,110,253,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+#tableSearch:focus {
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.3);
+}
+
+/* End of file */

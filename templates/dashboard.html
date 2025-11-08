@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .upload-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+  }
+
+  .upload-panel form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rating-badge {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+
+  /* Цвета рейтингов */
+  .r1 { background-color: #2ecc71; color: #fff; }
+  .r2 { background-color: #27ae60; color: #fff; }
+  .r3 { background-color: #f1c40f; color: #000; }
+  .r4 { background-color: #f39c12; color: #fff; }
+  .r5 { background-color: #e67e22; color: #fff; }
+  .r6 { background-color: #e74c3c; color: #fff; }
+  .r7 { background-color: #c0392b; color: #fff; }
+  .r8 { background-color: #8e44ad; color: #fff; }
+  .r9 { background-color: #6c3483; color: #fff; }
+
+  .table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+  }
+</style>
+
+<div class="upload-panel">
+  <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+    <input class="form-control form-control-sm" style="width:220px" type="file" name="file" multiple required>
+    <button class="btn btn-primary btn-sm" type="submit">📁 Загрузить</button>
+  </form>
+
+  <a href="{{ url_for('export_csv') }}" class="btn btn-outline-secondary btn-sm">⬇️ Экспорт CSV</a>
+  <a href="{{ url_for('api_ratings') }}" class="btn btn-outline-info btn-sm">🌐 API JSON</a>
+
+  <!-- Кнопка для гостевого входа -->
+  {% if not current_user.is_authenticated %}
+    <a href="{{ url_for('login_guest') }}" class="btn btn-outline-warning btn-sm">👤 Войти как гость</a>
+  {% endif %}
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th style="width:90px;">Место</th>
+            <th>Ученик</th>
+            <th style="width:130px;">Класс</th>
+            <th style="width:130px;">Средний балл</th>
+            <th style="width:150px;">Рейтинг (Корея)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in students %}
+          <tr>
+            <td class="fw-bold text-center">{{ s.place }}</td>
+            <td>{{ s.name if s.name else ('ID:' ~ s.external_id) }}</td>
+            <td>{{ s.klass }}</td>
+            <td>{{ '%.2f'|format(s.average) }}</td>
+            <td>
+              <span class="badge rating-badge r{{ s.korean_rating }}">{{ s.korean_rating }}</span>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" class="text-center text-muted py-3">
+              Нет данных — загрузите Excel-файлы классов 📊
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
