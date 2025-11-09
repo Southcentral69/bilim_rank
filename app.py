@@ -64,6 +64,11 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("login"))
+@app.route('/login_guest')
+def login_guest():
+    # логика гость-входа, например:
+    # session['user_type'] = 'guest'
+    return redirect(url_for('dashboard'))  # либо нужная страница
 
 # Главная — выбор параллели (1..11). НЕ требует логина (можно посмотреть рейтинги).
 @app.route("/")
