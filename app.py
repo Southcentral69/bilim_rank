@@ -75,6 +75,11 @@ def login_guest():
 def index():
     return render_template("index.html")
 
+
+@app.route("/reflection")
+def reflection():
+    return render_template("reflection.html")
+
 # Гостевой просмотр — показывает сохранённые рейтинги (последние)
 @app.route("/guest")
 def guest():
