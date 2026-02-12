@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="reflection-screen">
+  <div class="reflection-card shadow-sm">
+    <p class="reflection-subtitle mb-2">Интерактивная рефлексия</p>
+    <h1 class="reflection-title mb-4">Как вы поняли сегодняшнюю тему?</h1>
+
+    <div class="reflection-stats mb-4" id="reflectionStats">
+      <div class="stat-item stat-green">
+        <span class="stat-label">🟢 Зелёный</span>
+        <span class="stat-value" id="countGreen">0</span>
+      </div>
+      <div class="stat-item stat-yellow">
+        <span class="stat-label">🟡 Жёлтый</span>
+        <span class="stat-value" id="countYellow">0</span>
+      </div>
+      <div class="stat-item stat-red">
+        <span class="stat-label">🔴 Красный</span>
+        <span class="stat-value" id="countRed">0</span>
+      </div>
+    </div>
+
+    <div class="color-options mb-4" role="radiogroup" aria-label="Выбор цвета для рефлексии">
+      <button class="color-circle green" data-color="green" aria-label="Зелёный: всё понял, могу объяснить другим">
+        🟢
+      </button>
+      <button class="color-circle yellow" data-color="yellow" aria-label="Жёлтый: понял, но есть вопросы">
+        🟡
+      </button>
+      <button class="color-circle red" data-color="red" aria-label="Красный: тема осталась непонятной">
+        🔴
+      </button>
+    </div>
+
+    <div class="reflection-hints mb-4">
+      <p class="mb-2">🟢 Зелёный — всё понял, могу объяснить другим</p>
+      <p class="mb-2">🟡 Жёлтый — понял, но есть вопросы</p>
+      <p class="mb-0">🔴 Красный — тема осталась непонятной</p>
+    </div>
+
+    <button class="btn btn-primary reflection-btn" id="chooseBtn" disabled>Я выбираю</button>
+    <p class="selection-feedback mt-3 mb-0" id="selectionFeedback">Выберите цвет перед отправкой.</p>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const circles = document.querySelectorAll('.color-circle');
+    const chooseBtn = document.getElementById('chooseBtn');
+    const feedback = document.getElementById('selectionFeedback');
+
+    const counters = {
+      green: document.getElementById('countGreen'),
+      yellow: document.getElementById('countYellow'),
+      red: document.getElementById('countRed')
+    };
+
+    const totals = {
+      green: 0,
+      yellow: 0,
+      red: 0
+    };
+
+    let selectedColor = null;
+
+    circles.forEach(circle => {
+      circle.addEventListener('click', () => {
+        circles.forEach(item => item.classList.remove('active'));
+        circle.classList.add('active');
+        selectedColor = circle.dataset.color;
+        chooseBtn.disabled = false;
+        feedback.textContent = 'Нажмите «Я выбираю», чтобы зафиксировать выбор.';
+      });
+    });
+
+    chooseBtn.addEventListener('click', () => {
+      if (!selectedColor) {
+        feedback.textContent = 'Сначала выберите цвет.';
+        return;
+      }
+
+      totals[selectedColor] += 1;
+      counters[selectedColor].textContent = totals[selectedColor];
+
+      const selectedEmoji = selectedColor === 'green' ? '🟢' : selectedColor === 'yellow' ? '🟡' : '🔴';
+      feedback.textContent = `Ваш выбор принят: ${selectedEmoji}`;
+
+      circles.forEach(item => item.classList.remove('active'));
+      selectedColor = null;
+      chooseBtn.disabled = true;
+    });
+  })();
+</script>
+{% endblock %}
